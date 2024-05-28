@@ -1,13 +1,13 @@
 (function () {
     'use strict';
 
+    var currentIndex = 0;
     var setup = function (editor, url) {
       editor.ui.registry.addButton('a11y-links', {
         icon: 'link',
         tooltip: 'Accessible Links',
         onAction: function () {
           var links = editor.dom.select('a');
-          var currentIndex = 0;
           var updateDialogContent = function () {
             if (links.length > 0) {
               links.forEach(function (link) {
@@ -37,7 +37,7 @@
               items: [
                 {
                   type: 'htmlpanel',
-                  html: '<p style="font-family: Courier Sans;">[Link HTML]</p>'
+                  html: '<p style="font-family: Courier Sans;"></p>'
                 },
                 {
                   type: 'htmlpanel',

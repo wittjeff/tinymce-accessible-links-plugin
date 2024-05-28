@@ -1,5 +1,5 @@
 import { Editor, TinyMCE } from 'tinymce';
-
+let currentIndex = 0;
 declare const tinymce: TinyMCE;
 
 const setup = (editor: Editor, url: string): void => {
@@ -8,7 +8,7 @@ const setup = (editor: Editor, url: string): void => {
     tooltip: 'Accessible Links',
     onAction: () => {
       const links = editor.dom.select('a');
-      let currentIndex = 0;
+      
 
       const updateDialogContent = () => {
         if (links.length > 0) {
@@ -36,13 +36,13 @@ const setup = (editor: Editor, url: string): void => {
 
       const dialogApi = editor.windowManager.open({
         title: 'Link Accessibility Options',
-        size: 'large', // Adjust the size to ensure all buttons are visible
+        size: 'large', 
         body: {
           type: 'panel',
           items: [
             {
               type: 'htmlpanel',
-              html: '<p style="font-family: Courier Sans;">[Link HTML]</p>'
+              html: '<p style="font-family: Courier Sans;"></p>'
             },
             {
               type: 'htmlpanel',
