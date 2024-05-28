@@ -10,6 +10,10 @@
           var currentIndex = 0;
           var updateDialogContent = function () {
             if (links.length > 0) {
+              links.forEach(function (link) {
+                editor.dom.setAttrib(link, 'data-mce-selected', null);
+              });
+              editor.dom.setAttrib(links[currentIndex], 'data-mce-selected', 'inline-boundary');
               dialogApi.setData({
                 linkHtml: editor.serializer.serialize(links[currentIndex]),
                 isFirstLink: currentIndex === 0,
