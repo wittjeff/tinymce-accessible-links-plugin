@@ -1,4 +1,4 @@
-import { Editor, TinyMCE, EditorEvent } from 'tinymce';
+import { Editor, TinyMCE,} from 'tinymce';
 
 declare const tinymce: TinyMCE;
 
