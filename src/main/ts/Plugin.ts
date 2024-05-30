@@ -1,7 +1,6 @@
-import { Editor, TinyMCE,} from 'tinymce';
+import { Editor, TinyMCE } from 'tinymce';
 
 declare const tinymce: TinyMCE;
-
 
 const setup = (editor: Editor, url: string): void => {
   editor.ui.registry.addButton('a11y-links', {
@@ -10,6 +9,7 @@ const setup = (editor: Editor, url: string): void => {
     onAction: () => {
       const links = editor.dom.select('a');
       let currentIndex = 0;
+
       const updateDialogContent = (dialogApi: any) => {
         if (links.length > 0) {
           links.forEach(link => {
@@ -28,7 +28,10 @@ const setup = (editor: Editor, url: string): void => {
             rightArrow: false,
             overlappingSquares: false,
             srTextExternal: false,
-            srText: 'none'
+            srTextNone: true,
+            srTextNewTab: false,
+            srTextScrollDown: false,
+            srTextTopPage: false
           });
         }
       };
@@ -46,6 +49,29 @@ const setup = (editor: Editor, url: string): void => {
         return symbolMap[selectedSymbol || 'noSymbol'];
       };
 
+      const getSrTextHtml = (data: any) => {
+        let srTextContent = '';
+
+        if (data.srTextExternal) {
+          srTextContent += `<span class="sr-only"> external site</span>`;
+        }
+
+        const srTextMap = {
+          srTextNone: '',
+          srTextNewTab: '<span class="sr-only"> opens in a new tab</span>',
+          srTextScrollDown: '<span class="sr-only"> scrolls down this page</span>',
+          srTextTopPage: '<span class="sr-only"> returns to top of page</span>'
+        };
+        
+        Object.keys(srTextMap).forEach(key => {
+          if (data[key] && key !== 'srTextNone') {
+            srTextContent += srTextMap[key];
+          }
+        });
+
+        return srTextContent;
+      };
+
       const pageConfig = (isFirstPage: boolean, isLastPage: boolean): any => ({
         title: 'Link Accessibility Options',
         size: 'large', // Correct type of DialogSize
@@ -55,7 +81,6 @@ const setup = (editor: Editor, url: string): void => {
             {
               type: 'htmlpanel',
               html: `<p id="link-display" style="font-family: Courier Sans;">${editor.serializer.serialize(links[currentIndex])}</p>`
-
             },
             {
               type: 'htmlpanel',
@@ -72,16 +97,18 @@ const setup = (editor: Editor, url: string): void => {
                 { type: 'checkbox', name: 'overlappingSquares', label: 'Overlapping squares' }
               ]
             },
-            { type: 'checkbox', name: 'srTextExternal', label: ' external site' },
             {
-              type: 'listbox',
-              name: 'srText',
-              label: 'Screen-reader text',
+              type: 'htmlpanel',
+              html: '<label>Screen-reader text</label>'
+            },
+            {
+              type: 'panel',
               items: [
-                { text: 'None', value: 'none' },
-                { text: ' opens in a new tab', value: 'new-tab' },
-                { text: ' scrolls down this page', value: 'scroll-down' },
-                { text: ' returns to top of page', value: 'top-page' }
+                { type: 'checkbox', name: 'srTextExternal', label: ' external site' },
+                { type: 'checkbox', name: 'srTextNone', label: 'None' },
+                { type: 'checkbox', name: 'srTextNewTab', label: ' opens in a new tab' },
+                { type: 'checkbox', name: 'srTextScrollDown', label: ' scrolls down this page' },
+                { type: 'checkbox', name: 'srTextTopPage', label: ' returns to top of page' }
               ]
             }
           ]
@@ -97,7 +124,10 @@ const setup = (editor: Editor, url: string): void => {
           rightArrow: false,
           overlappingSquares: false,
           srTextExternal: false,
-          srText: 'none'
+          srTextNone: true,
+          srTextNewTab: false,
+          srTextScrollDown: false,
+          srTextTopPage: false
         },
         buttons: [
           {
@@ -153,6 +183,13 @@ const setup = (editor: Editor, url: string): void => {
                 dialogApi.setData({ [symbol]: false });
               }
             });
+          } else if (details.name.startsWith('srText')) {
+            const srTextCheckboxes = ['srTextNone', 'srTextNewTab', 'srTextScrollDown', 'srTextTopPage'];
+            srTextCheckboxes.forEach(srText => {
+              if (srText !== 'srTextExternal' && srText !== details.name) {
+                dialogApi.setData({ [srText]: false });
+              }
+            });
           }
         },
         onAction: (dialogApi: any, details: any) => {
@@ -184,27 +221,10 @@ const setup = (editor: Editor, url: string): void => {
                 symbolElements.forEach(el => editor.dom.remove(el));
 
                 let linkContent = link.innerHTML;
-                let srTextContent = '';
 
-                if (data.srTextExternal) {
-                  if (!linkContent.includes('sr-only"> external site')) {
-                    srTextContent += `<span class="sr-only"> external site</span>`;
-                  }
-                }
-
-                if (data.srText !== 'none') {
-                  const srTextMap = {
-                    'new-tab': ' opens in a new tab',
-                    'scroll-down': ' scrolls down this page',
-                    'top-page': ' returns to top of page'
-                  };
-                  const srTextValue = srTextMap[data.srText];
-                  if (!linkContent.includes(`sr-only">${srTextValue}`)) {
-                    srTextContent += `<span class="sr-only">${srTextValue}</span>`;
-                  }
-                }
-
+                const srTextContent = getSrTextHtml(data);
                 const symbolHtml = getSymbolHtml(data);
+
                 linkContent += `${srTextContent}${symbolHtml}`;
                 editor.dom.setHTML(link, linkContent);
                 break;

@@ -25,7 +25,10 @@
                 rightArrow: false,
                 overlappingSquares: false,
                 srTextExternal: false,
-                srText: 'none'
+                srTextNone: true,
+                srTextNewTab: false,
+                srTextScrollDown: false,
+                srTextTopPage: false
               });
             }
           };
@@ -49,6 +52,24 @@
               return data[symbol];
             });
             return symbolMap[selectedSymbol || 'noSymbol'];
+          };
+          var getSrTextHtml = function (data) {
+            var srTextContent = '';
+            if (data.srTextExternal) {
+              srTextContent += '<span class="sr-only"> external site</span>';
+            }
+            var srTextMap = {
+              srTextNone: '',
+              srTextNewTab: '<span class="sr-only"> opens in a new tab</span>',
+              srTextScrollDown: '<span class="sr-only"> scrolls down this page</span>',
+              srTextTopPage: '<span class="sr-only"> returns to top of page</span>'
+            };
+            Object.keys(srTextMap).forEach(function (key) {
+              if (data[key] && key !== 'srTextNone') {
+                srTextContent += srTextMap[key];
+              }
+            });
+            return srTextContent;
           };
           var pageConfig = function (isFirstPage, isLastPage) {
             return {
@@ -101,30 +122,36 @@
                     ]
                   },
                   {
-                    type: 'checkbox',
-                    name: 'srTextExternal',
-                    label: ' external site'
+                    type: 'htmlpanel',
+                    html: '<label>Screen-reader text</label>'
                   },
                   {
-                    type: 'listbox',
-                    name: 'srText',
-                    label: 'Screen-reader text',
+                    type: 'panel',
                     items: [
                       {
-                        text: 'None',
-                        value: 'none'
+                        type: 'checkbox',
+                        name: 'srTextExternal',
+                        label: ' external site'
                       },
                       {
-                        text: ' opens in a new tab',
-                        value: 'new-tab'
+                        type: 'checkbox',
+                        name: 'srTextNone',
+                        label: 'None'
                       },
                       {
-                        text: ' scrolls down this page',
-                        value: 'scroll-down'
+                        type: 'checkbox',
+                        name: 'srTextNewTab',
+                        label: ' opens in a new tab'
                       },
                       {
-                        text: ' returns to top of page',
-                        value: 'top-page'
+                        type: 'checkbox',
+                        name: 'srTextScrollDown',
+                        label: ' scrolls down this page'
+                      },
+                      {
+                        type: 'checkbox',
+                        name: 'srTextTopPage',
+                        label: ' returns to top of page'
                       }
                     ]
                   }
@@ -141,7 +168,10 @@
                 rightArrow: false,
                 overlappingSquares: false,
                 srTextExternal: false,
-                srText: 'none'
+                srTextNone: true,
+                srTextNewTab: false,
+                srTextScrollDown: false,
+                srTextTopPage: false
               },
               buttons: [
                 {
@@ -205,6 +235,19 @@
                       dialogApi.setData((_a = {}, _a[symbol] = false, _a));
                     }
                   });
+                } else if (details.name.startsWith('srText')) {
+                  var srTextCheckboxes = [
+                    'srTextNone',
+                    'srTextNewTab',
+                    'srTextScrollDown',
+                    'srTextTopPage'
+                  ];
+                  srTextCheckboxes.forEach(function (srText) {
+                    var _a;
+                    if (srText !== 'srTextExternal' && srText !== details.name) {
+                      dialogApi.setData((_a = {}, _a[srText] = false, _a));
+                    }
+                  });
                 }
               },
               onAction: function (dialogApi, details) {
@@ -235,23 +278,7 @@
                       return editor.dom.remove(el);
                     });
                     var linkContent = link.innerHTML;
-                    var srTextContent = '';
-                    if (data.srTextExternal) {
-                      if (!linkContent.includes('sr-only"> external site')) {
-                        srTextContent += '<span class="sr-only"> external site</span>';
-                      }
-                    }
-                    if (data.srText !== 'none') {
-                      var srTextMap = {
-                        'new-tab': ' opens in a new tab',
-                        'scroll-down': ' scrolls down this page',
-                        'top-page': ' returns to top of page'
-                      };
-                      var srTextValue = srTextMap[data.srText];
-                      if (!linkContent.includes('sr-only">'.concat(srTextValue))) {
-                        srTextContent += '<span class="sr-only">'.concat(srTextValue, '</span>');
-                      }
-                    }
+                    var srTextContent = getSrTextHtml(data);
                     var symbolHtml = getSymbolHtml(data);
                     linkContent += ''.concat(srTextContent).concat(symbolHtml);
                     editor.dom.setHTML(link, linkContent);
