@@ -220,7 +220,7 @@
                 }
               ],
               onChange: function (dialogApi, details) {
-                if (details.name.startsWith('symbol')) {
+                if (details.name.startsWith('noSymbol') || details.name.startsWith('downArrow') || details.name.startsWith('topPage') || details.name.startsWith('neArrow') || details.name.startsWith('rightArrow') || details.name.startsWith('overlappingSquares')) {
                   var symbolCheckboxes = [
                     'noSymbol',
                     'downArrow',

@@ -176,7 +176,7 @@ const setup = (editor: Editor, url: string): void => {
           }
         ],
         onChange: (dialogApi: any, details: any) => {
-          if (details.name.startsWith('symbol')) {
+          if (details.name.startsWith('noSymbol') || details.name.startsWith('downArrow') || details.name.startsWith('topPage') || details.name.startsWith('neArrow') || details.name.startsWith('rightArrow') || details.name.startsWith('overlappingSquares')) {
             const symbolCheckboxes = ['noSymbol', 'downArrow', 'topPage', 'neArrow', 'rightArrow', 'overlappingSquares'];
             symbolCheckboxes.forEach(symbol => {
               if (symbol !== details.name) {
