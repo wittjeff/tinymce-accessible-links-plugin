@@ -74,7 +74,8 @@
           var pageConfig = function (isFirstPage, isLastPage) {
             return {
               title: 'Link Accessibility Options',
-              size: 'large',
+              size: 'medium',
+              maxWeidth: 50,
               body: {
                 type: 'panel',
                 items: [

@@ -74,7 +74,8 @@ const setup = (editor: Editor, url: string): void => {
 
       const pageConfig = (isFirstPage: boolean, isLastPage: boolean): any => ({
         title: 'Link Accessibility Options',
-        size: 'large', // Correct type of DialogSize
+        size: 'medium',
+        maxWeidth:50,
         body: {
           type: 'panel',
           items: [
@@ -110,7 +111,7 @@ const setup = (editor: Editor, url: string): void => {
                 { type: 'checkbox', name: 'srTextScrollDown', label: ' scrolls down this page' },
                 { type: 'checkbox', name: 'srTextTopPage', label: ' returns to top of page' }
               ]
-            }
+            },
           ]
         },
         initialData: {
@@ -135,44 +136,44 @@ const setup = (editor: Editor, url: string): void => {
             name: 'prev',
             text: 'Previous',
             enabled: !isFirstPage,
-            primary: false
+            primary: false,
           },
           {
             type: 'custom',
             name: 'next',
             text: 'Next',
             enabled: !isLastPage,
-            primary: false
+            primary: false,
           },
           {
             type: 'custom',
             name: 'update',
             text: 'Update as selected',
-            primary: true
+            primary: true,
           },
           {
             type: 'custom',
             name: 'removeTarget',
             text: 'Remove target=_blank',
-            primary: false
+            primary: false,
           },
           {
             type: 'custom',
             name: 'insertTarget',
             text: 'Insert target=_blank',
-            primary: false
+            primary: false,
           },
           {
             type: 'custom',
             name: 'skip',
             text: 'Skip',
-            primary: false
+            primary: false,
           },
           {
             type: 'custom',
             name: 'done',
             text: 'Done',
-            primary: false
+            primary: false,
           }
         ],
         onChange: (dialogApi: any, details: any) => {
