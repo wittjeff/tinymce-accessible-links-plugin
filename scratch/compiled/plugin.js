@@ -73,7 +73,7 @@
           var pageConfig = function (isFirstPage, isLastPage) {
             return {
               title: 'Link Accessibility Options',
-              size: 'medium',
+              size: 'large',
               body: {
                 type: 'panel',
                 items: [
@@ -212,6 +212,12 @@
                   type: 'custom',
                   name: 'insertTarget',
                   text: 'Insert target=_blank',
+                  primary: false
+                },
+                {
+                  type: 'custom',
+                  name: 'skip',
+                  text: 'Skip',
                   primary: false
                 },
                 {

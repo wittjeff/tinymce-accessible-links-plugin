@@ -72,7 +72,7 @@ const setup = (editor: Editor, url: string): void => {
 
       const pageConfig = (isFirstPage: boolean, isLastPage: boolean): any => ({
         title: 'Link Accessibility Options',
-        size: 'medium',
+        size: 'large',
         body: {
           type: 'panel',
           items: [
@@ -165,7 +165,12 @@ const setup = (editor: Editor, url: string): void => {
             text: 'Insert target=_blank',
             primary: false
           },
-          
+          {
+            type: 'custom',
+            name: 'skip',
+            text: 'Skip',
+            primary: false
+          },
           {
             type: 'custom',
             name: 'done',
@@ -267,3 +272,4 @@ const setup = (editor: Editor, url: string): void => {
 export default (): void => {
   tinymce.PluginManager.add('a11y-links', setup);
 };
+
