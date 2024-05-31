@@ -27,11 +27,8 @@ const setup = (editor: Editor, url: string): void => {
             neArrow: false,
             rightArrow: false,
             overlappingSquares: false,
-            srTextExternal: false,
-            srTextNone: true,
-            srTextNewTab: false,
-            srTextScrollDown: false,
-            srTextTopPage: false
+            customSvgSymbol: false,
+            customSvg: '<svg style="display: inline-block; width: 1em; height: 1em;" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M36 24c-1.2 0-2 0.8-2 2v12c0 1.2-0.8 2-2 2h-22c-1.2 0-2-0.8-2-2v-22c0-1.2 0.8-2 2-2h12c1.2 0 2-0.8 2-2s-0.8-2-2-2h-12c-3.4 0-6 2.6-6 6v22c0 3.4 2.6 6 6 6h22c3.4 0 6-2.6 6-6v-12c0-1.2-0.8-2-2-2z"></path><path d="M43.8 5.2c-0.2-0.4-0.6-0.8-1-1-0.2-0.2-0.6-0.2-0.8-0.2h-12c-1.2 0-2 0.8-2 2s0.8 2 2 2h7.2l-18.6 18.6c-0.8 0.8-0.8 2 0 2.8 0.4 0.4 0.8 0.6 1.4 0.6s1-0.2 1.4-0.6l18.6-18.6v7.2c0 1.2 0.8 2 2 2s2-0.8 2-2v-12c0-0.2 0-0.6-0.2-0.8z"></path></svg>'
           });
         }
       };
@@ -43,9 +40,10 @@ const setup = (editor: Editor, url: string): void => {
           topPage: '<span class="top-page" aria-hidden="true">&mapstoup;</span>',
           neArrow: '<span class="ne-arrow" aria-hidden="true">&nearr;</span>',
           rightArrow: '<span class="right-arrow" aria-hidden="true">&#x1f517;</span>',
-          overlappingSquares: '<span class="overlapping-squares" aria-hidden="true">&#x1F5D7;</span>'
+          overlappingSquares: '<span class="overlapping-squares" aria-hidden="true">&#x1F5D7;</span>',
+          customSvg: data.customSvgSymbol ? data.customSvg : ''
         };
-        const selectedSymbol = ['noSymbol', 'downArrow', 'topPage', 'neArrow', 'rightArrow', 'overlappingSquares'].find(symbol => data[symbol]);
+        const selectedSymbol = ['noSymbol', 'downArrow', 'topPage', 'neArrow', 'rightArrow', 'overlappingSquares', 'customSvg'].find(symbol => data[symbol]);
         return symbolMap[selectedSymbol || 'noSymbol'];
       };
 
@@ -74,7 +72,7 @@ const setup = (editor: Editor, url: string): void => {
 
       const pageConfig = (isFirstPage: boolean, isLastPage: boolean): any => ({
         title: 'Link Accessibility Options',
-        size: 'large', // Correct type of DialogSize
+        size: 'medium',
         body: {
           type: 'panel',
           items: [
@@ -94,7 +92,15 @@ const setup = (editor: Editor, url: string): void => {
                 { type: 'checkbox', name: 'topPage', label: 'Top of page symbol' },
                 { type: 'checkbox', name: 'neArrow', label: 'NE pointing arrow' },
                 { type: 'checkbox', name: 'rightArrow', label: 'Right-pointing arrow' },
-                { type: 'checkbox', name: 'overlappingSquares', label: 'Overlapping squares' }
+                { type: 'checkbox', name: 'overlappingSquares', label: 'Overlapping squares' },
+                { type: 'checkbox', name: 'customSvgSymbol', label: 'Custom SVG symbol' },
+                {
+                  type: 'input',
+                  name: 'customSvg',
+                  label: 'Custom SVG',
+                  inputType: 'textarea',
+                  value: '<svg style="display: inline-block; width: 1em; height: 1em;" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M36 24c-1.2 0-2 0.8-2 2v12c0 1.2-0.8 2-2 2h-22c-1.2 0-2-0.8-2-2v-22c0-1.2 0.8-2 2-2h12c1.2 0 2-0.8 2-2s-0.8-2-2-2h-12c-3.4 0-6 2.6-6 6v22c0 3.4 2.6 6 6 6h22c3.4 0 6-2.6 6-6v-12c0-1.2-0.8-2-2-2z"></path><path d="M43.8 5.2c-0.2-0.4-0.6-0.8-1-1-0.2-0.2-0.6-0.2-0.8-0.2h-12c-1.2 0-2 0.8-2 2s0.8 2 2 2h7.2l-18.6 18.6c-0.8 0.8-0.8 2 0 2.8 0.4 0.4 0.8 0.6 1.4 0.6s1-0.2 1.4-0.6l18.6-18.6v7.2c0 1.2 0.8 2 2 2s2-0.8 2-2v-12c0-0.2 0-0.6-0.2-0.8z"></path></svg>'
+                }
               ]
             },
             {
@@ -123,11 +129,8 @@ const setup = (editor: Editor, url: string): void => {
           neArrow: false,
           rightArrow: false,
           overlappingSquares: false,
-          srTextExternal: false,
-          srTextNone: true,
-          srTextNewTab: false,
-          srTextScrollDown: false,
-          srTextTopPage: false
+          customSvgSymbol: false,
+          customSvg: '<svg style="display: inline-block; width: 1em; height: 1em;" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M36 24c-1.2 0-2 0.8-2 2v12c0 1.2-0.8 2-2 2h-22c-1.2 0-2-0.8-2-2v-22c0-1.2 0.8-2 2-2h12c1.2 0 2-0.8 2-2s-0.8-2-2-2h-12c-3.4 0-6 2.6-6 6v22c0 3.4 2.6 6 6 6h22c3.4 0 6-2.6 6-6v-12c0-1.2-0.8-2-2-2z"></path><path d="M43.8 5.2c-0.2-0.4-0.6-0.8-1-1-0.2-0.2-0.6-0.2-0.8-0.2h-12c-1.2 0-2 0.8-2 2s0.8 2 2 2h7.2l-18.6 18.6c-0.8 0.8-0.8 2 0 2.8 0.4 0.4 0.8 0.6 1.4 0.6s1-0.2 1.4-0.6l18.6-18.6v7.2c0 1.2 0.8 2 2 2s2-0.8 2-2v-12c0-0.2 0-0.6-0.2-0.8z"></path></svg>'
         },
         buttons: [
           {
@@ -162,12 +165,7 @@ const setup = (editor: Editor, url: string): void => {
             text: 'Insert target=_blank',
             primary: false
           },
-          {
-            type: 'custom',
-            name: 'skip',
-            text: 'Skip',
-            primary: false
-          },
+          
           {
             type: 'custom',
             name: 'done',
@@ -176,8 +174,8 @@ const setup = (editor: Editor, url: string): void => {
           }
         ],
         onChange: (dialogApi: any, details: any) => {
-          if (details.name.startsWith('noSymbol') || details.name.startsWith('downArrow') || details.name.startsWith('topPage') || details.name.startsWith('neArrow') || details.name.startsWith('rightArrow') || details.name.startsWith('overlappingSquares')) {
-            const symbolCheckboxes = ['noSymbol', 'downArrow', 'topPage', 'neArrow', 'rightArrow', 'overlappingSquares'];
+          if (details.name.startsWith('noSymbol') || details.name.startsWith('downArrow') || details.name.startsWith('topPage') || details.name.startsWith('neArrow') || details.name.startsWith('rightArrow') || details.name.startsWith('overlappingSquares') || details.name.startsWith('customSvgSymbol')) {
+            const symbolCheckboxes = ['noSymbol', 'downArrow', 'topPage', 'neArrow', 'rightArrow', 'overlappingSquares', 'customSvgSymbol'];
             symbolCheckboxes.forEach(symbol => {
               if (symbol !== details.name) {
                 dialogApi.setData({ [symbol]: false });
