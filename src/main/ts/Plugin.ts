@@ -72,7 +72,7 @@ const setup = (editor: Editor, url: string): void => {
 
       const pageConfig = (isFirstPage: boolean, isLastPage: boolean): any => ({
         title: 'Link Accessibility Options',
-        size: 'large',
+        size: 'medium',
         body: {
           type: 'panel',
           items: [
@@ -150,7 +150,7 @@ const setup = (editor: Editor, url: string): void => {
           {
             type: 'custom',
             name: 'update',
-            text: 'Update as selected',
+            text: 'Update',
             primary: true
           },
           {
@@ -165,12 +165,7 @@ const setup = (editor: Editor, url: string): void => {
             text: 'Insert target=_blank',
             primary: false
           },
-          {
-            type: 'custom',
-            name: 'skip',
-            text: 'Skip',
-            primary: false
-          },
+          
           {
             type: 'custom',
             name: 'done',
