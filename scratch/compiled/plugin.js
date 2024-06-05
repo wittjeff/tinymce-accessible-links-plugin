@@ -2,8 +2,9 @@
     'use strict';
 
     var setup = function (editor, url) {
+      editor.ui.registry.addIcon('custom-links-icon', '<img src="/icons/links.svg " style="height: 25px; width: 25px;"/>');
       editor.ui.registry.addButton('a11y-links', {
-        icon: 'link',
+        icon: 'custom-links-icon',
         tooltip: 'Accessible Links',
         onAction: function () {
           var links = editor.dom.select('a');
