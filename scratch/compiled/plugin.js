@@ -2,7 +2,7 @@
     'use strict';
 
     var setup = function (editor, url) {
-      editor.ui.registry.addIcon('custom-links-icon', '<img src="/icons/links.svg " style="height: 25px; width: 25px;"/>');
+      editor.ui.registry.addIcon('custom-links-icon', '<img src="/icons/arrow.svg " style="height: 25px; width: 25px;"/>');
       editor.ui.registry.addButton('a11y-links', {
         icon: 'custom-links-icon',
         tooltip: 'Accessible Links',
@@ -36,7 +36,7 @@
               downArrow: '<span class="down-arrow" aria-hidden="true">&darr;</span>',
               topPage: '<span class="top-page" aria-hidden="true">&mapstoup;</span>',
               neArrow: '<span class="ne-arrow" aria-hidden="true">&nearr;</span>',
-              rightArrow: '<span class="right-arrow" aria-hidden="true">&#x1f517;</span>',
+              rightArrow: '<span class="right-arrow" aria-hidden="true">&#x2192;</span>',
               overlappingSquares: '<span class="overlapping-squares" aria-hidden="true">&#x1F5D7;</span>',
               customSvg: data.customSvgSymbol ? data.customSvg : ''
             };
