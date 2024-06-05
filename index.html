@@ -27,11 +27,11 @@
   <script>
     tinymce.init({
       selector: 'textarea#myOneEditor',
-      plugins: '',
+      plugins: 'link',
       external_plugins: {
           'a11y-links': 'https://wittjeff.github.io/tinymce-accessible-links-plugin/a11y-links.min.js'
       },
-      toolbar: 'a11y-links language',
+      toolbar: 'link language a11y-links',
       content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
       content_langs: [
         { title: 'English', code: 'en' },
