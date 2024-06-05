@@ -8,6 +8,9 @@
     .right-arrow-after::after {
       content: '\2192'
     }
+    .box-arrow-after::after {
+      content:url("data:image/svg+xml,<svg width='10' viewBox='0 0 8 8' xmlns='http://www.w3.org/2000/svg'><circle cx='4' cy='4' r='4' fill='red'/></svg>");
+    }
   </style>
 </head>
 <body>
@@ -15,6 +18,8 @@
   <p class="link-icon-after">There should be a link icon after this paragraph.</p>
   <br />
   <p>There should be a right-pointing arrow after this paragraph. This one is attached to a span.<span class="right-arrow-after"></span></p>
+  <br />
+  <p>This one should have a box with NE-pointing arrow after it. <span class="box-arrow-after"></span></p>
 
 </body>
 </html>
