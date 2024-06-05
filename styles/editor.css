@@ -1,0 +1,8 @@
+.tox-dialog__body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.tox-dialog__footer-end {
+  flex-wrap: wrap;
+}

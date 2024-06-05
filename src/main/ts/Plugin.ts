@@ -3,8 +3,10 @@ import { Editor, TinyMCE } from 'tinymce';
 declare const tinymce: TinyMCE;
 
 const setup = (editor: Editor, url: string): void => {
+
+  editor.ui.registry.addIcon('custom-links-icon', '<img src="/icons/links.svg " style="height: 25px; width: 25px;"/>');
   editor.ui.registry.addButton('a11y-links', {
-    icon: 'link',
+    icon: 'custom-links-icon',
     tooltip: 'Accessible Links',
     onAction: () => {
       const links = editor.dom.select('a');
@@ -78,7 +80,7 @@ const setup = (editor: Editor, url: string): void => {
           items: [
             {
               type: 'htmlpanel',
-              html: `<p id="link-display" style="font-family: Courier Sans;">${editor.serializer.serialize(links[currentIndex])}</p>`
+              html: `<p id="link-display" style="font-family: Courier Sans;">${editor.serializer.serialize(links[currentIndex])} <span style="font-weight: bold;">(Link ${currentIndex + 1} of ${links.length})</span></p>`
             },
             {
               type: 'htmlpanel',
@@ -165,7 +167,6 @@ const setup = (editor: Editor, url: string): void => {
             text: 'Insert target=_blank',
             primary: false
           },
-          
           {
             type: 'custom',
             name: 'done',
@@ -174,13 +175,16 @@ const setup = (editor: Editor, url: string): void => {
           }
         ],
         onChange: (dialogApi: any, details: any) => {
-          if (details.name.startsWith('noSymbol') || details.name.startsWith('downArrow') || details.name.startsWith('topPage') || details.name.startsWith('neArrow') || details.name.startsWith('rightArrow') || details.name.startsWith('overlappingSquares') || details.name.startsWith('customSvgSymbol')) {
-            const symbolCheckboxes = ['noSymbol', 'downArrow', 'topPage', 'neArrow', 'rightArrow', 'overlappingSquares', 'customSvgSymbol'];
+          if (details.name.startsWith('noSymbol') || details.name.startsWith('downArrow') || details.name.startsWith('topPage') || details.name.startsWith('neArrow') || details.name.startsWith('rightArrow') || details.name.startsWith('overlappingSquares')) {
+            const symbolCheckboxes = ['noSymbol', 'downArrow', 'topPage', 'neArrow', 'rightArrow', 'overlappingSquares'];
             symbolCheckboxes.forEach(symbol => {
               if (symbol !== details.name) {
                 dialogApi.setData({ [symbol]: false });
               }
             });
+          }
+          if (details.name === 'customSvgSymbol') {
+            dialogApi.setData({ customSvgSymbol: details.value });
           } else if (details.name.startsWith('srText')) {
             const srTextCheckboxes = ['srTextNone', 'srTextNewTab', 'srTextScrollDown', 'srTextTopPage'];
             srTextCheckboxes.forEach(srText => {
@@ -230,6 +234,7 @@ const setup = (editor: Editor, url: string): void => {
             case 'removeTarget':
               {
                 editor.dom.setAttrib(link, 'target', null);
+                editor.dom.setAttrib(link, 'rel', null);
                 break;
               }
             case 'insertTarget':
@@ -267,4 +272,3 @@ const setup = (editor: Editor, url: string): void => {
 export default (): void => {
   tinymce.PluginManager.add('a11y-links', setup);
 };
-

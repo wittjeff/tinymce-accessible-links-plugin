@@ -2,8 +2,9 @@
     'use strict';
 
     var setup = function (editor, url) {
+      editor.ui.registry.addIcon('custom-links-icon', '<img src="/icons/links.svg " style="height: 25px; width: 25px;"/>');
       editor.ui.registry.addButton('a11y-links', {
-        icon: 'link',
+        icon: 'custom-links-icon',
         tooltip: 'Accessible Links',
         onAction: function () {
           var links = editor.dom.select('a');
@@ -79,7 +80,7 @@
                 items: [
                   {
                     type: 'htmlpanel',
-                    html: '<p id="link-display" style="font-family: Courier Sans;">'.concat(editor.serializer.serialize(links[currentIndex]), '</p>')
+                    html: '<p id="link-display" style="font-family: Courier Sans;">'.concat(editor.serializer.serialize(links[currentIndex]), ' <span style="font-weight: bold;">(Link ').concat(currentIndex + 1, ' of ').concat(links.length, ')</span></p>')
                   },
                   {
                     type: 'htmlpanel',
@@ -222,15 +223,14 @@
                 }
               ],
               onChange: function (dialogApi, details) {
-                if (details.name.startsWith('noSymbol') || details.name.startsWith('downArrow') || details.name.startsWith('topPage') || details.name.startsWith('neArrow') || details.name.startsWith('rightArrow') || details.name.startsWith('overlappingSquares') || details.name.startsWith('customSvgSymbol')) {
+                if (details.name.startsWith('noSymbol') || details.name.startsWith('downArrow') || details.name.startsWith('topPage') || details.name.startsWith('neArrow') || details.name.startsWith('rightArrow') || details.name.startsWith('overlappingSquares')) {
                   var symbolCheckboxes = [
                     'noSymbol',
                     'downArrow',
                     'topPage',
                     'neArrow',
                     'rightArrow',
-                    'overlappingSquares',
-                    'customSvgSymbol'
+                    'overlappingSquares'
                   ];
                   symbolCheckboxes.forEach(function (symbol) {
                     var _a;
@@ -238,6 +238,9 @@
                       dialogApi.setData((_a = {}, _a[symbol] = false, _a));
                     }
                   });
+                }
+                if (details.name === 'customSvgSymbol') {
+                  dialogApi.setData({ customSvgSymbol: details.value });
                 } else if (details.name.startsWith('srText')) {
                   var srTextCheckboxes = [
                     'srTextNone',
@@ -289,6 +292,7 @@
                   }
                 case 'removeTarget': {
                     editor.dom.setAttrib(link, 'target', null);
+                    editor.dom.setAttrib(link, 'rel', null);
                     break;
                   }
                 case 'insertTarget': {
