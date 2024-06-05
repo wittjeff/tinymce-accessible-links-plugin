@@ -90,11 +90,11 @@ const setup = (editor: Editor, url: string): void => {
               type: 'panel',
               items: [
                 { type: 'checkbox', name: 'noSymbol', label: 'No symbol' },
-                { type: 'checkbox', name: 'downArrow', label: 'Down arrow symbol' },
-                { type: 'checkbox', name: 'topPage', label: 'Top of page symbol' },
-                { type: 'checkbox', name: 'neArrow', label: 'NE pointing arrow' },
-                { type: 'checkbox', name: 'rightArrow', label: 'Right-pointing arrow' },
-                { type: 'checkbox', name: 'overlappingSquares', label: 'Overlapping squares' },
+                { type: 'checkbox', name: 'downArrow', label: '↓' },
+                { type: 'checkbox', name: 'topPage', label: '↥' },
+                { type: 'checkbox', name: 'neArrow', label: '↗' },
+                { type: 'checkbox', name: 'rightArrow', label: '→' },
+                { type: 'checkbox', name: 'overlappingSquares', label: '🗗' },
                 { type: 'checkbox', name: 'customSvgSymbol', label: 'Custom SVG symbol' },
                 {
                   type: 'input',
@@ -175,17 +175,27 @@ const setup = (editor: Editor, url: string): void => {
           }
         ],
         onChange: (dialogApi: any, details: any) => {
-          if (details.name.startsWith('noSymbol') || details.name.startsWith('downArrow') || details.name.startsWith('topPage') || details.name.startsWith('neArrow') || details.name.startsWith('rightArrow') || details.name.startsWith('overlappingSquares')) {
-            const symbolCheckboxes = ['noSymbol', 'downArrow', 'topPage', 'neArrow', 'rightArrow', 'overlappingSquares'];
+          const symbolCheckboxes = ['noSymbol', 'downArrow', 'topPage', 'neArrow', 'rightArrow', 'overlappingSquares'];
+        
+          if (symbolCheckboxes.indexOf(details.name) !== -1) {
             symbolCheckboxes.forEach(symbol => {
               if (symbol !== details.name) {
                 dialogApi.setData({ [symbol]: false });
               }
             });
+            if (details.name !== 'noSymbol') {
+              dialogApi.setData({ noSymbol: false });
+            }
           }
+          
           if (details.name === 'customSvgSymbol') {
             dialogApi.setData({ customSvgSymbol: details.value });
-          } else if (details.name.startsWith('srText')) {
+            if (details.value) {
+              dialogApi.setData({ noSymbol: false });
+            }
+          }
+        
+          if (details.name.startsWith('srText')) {
             const srTextCheckboxes = ['srTextNone', 'srTextNewTab', 'srTextScrollDown', 'srTextTopPage'];
             srTextCheckboxes.forEach(srText => {
               if (srText !== 'srTextExternal' && srText !== details.name) {
@@ -193,7 +203,8 @@ const setup = (editor: Editor, url: string): void => {
               }
             });
           }
-        },
+        }
+        ,
         onAction: (dialogApi: any, details: any) => {
           const data = dialogApi.getData();
           const link = links[currentIndex];
@@ -271,4 +282,10 @@ const setup = (editor: Editor, url: string): void => {
 
 export default (): void => {
   tinymce.PluginManager.add('a11y-links', setup);
-};
+  tinymce.init({
+    selector: 'textarea.tinymce', // Select the textarea with class 'tinymce'
+    plugins: 'a11y-links', // Include the 'a11y-links' plugin if required
+    toolbar: 'a11y-links', // Add the 'a11y-links' button to the toolbar
+    content_style : "tox-editor-container {background-color: red; }",
+  });
+}

@@ -97,27 +97,27 @@
                       {
                         type: 'checkbox',
                         name: 'downArrow',
-                        label: 'Down arrow symbol'
+                        label: '\u2193'
                       },
                       {
                         type: 'checkbox',
                         name: 'topPage',
-                        label: 'Top of page symbol'
+                        label: '\u21A5'
                       },
                       {
                         type: 'checkbox',
                         name: 'neArrow',
-                        label: 'NE pointing arrow'
+                        label: '\u2197'
                       },
                       {
                         type: 'checkbox',
                         name: 'rightArrow',
-                        label: 'Right-pointing arrow'
+                        label: '\u2192'
                       },
                       {
                         type: 'checkbox',
                         name: 'overlappingSquares',
-                        label: 'Overlapping squares'
+                        label: '\uD83D\uDDD7'
                       },
                       {
                         type: 'checkbox',
@@ -223,25 +223,32 @@
                 }
               ],
               onChange: function (dialogApi, details) {
-                if (details.name.startsWith('noSymbol') || details.name.startsWith('downArrow') || details.name.startsWith('topPage') || details.name.startsWith('neArrow') || details.name.startsWith('rightArrow') || details.name.startsWith('overlappingSquares')) {
-                  var symbolCheckboxes = [
-                    'noSymbol',
-                    'downArrow',
-                    'topPage',
-                    'neArrow',
-                    'rightArrow',
-                    'overlappingSquares'
-                  ];
+                var symbolCheckboxes = [
+                  'noSymbol',
+                  'downArrow',
+                  'topPage',
+                  'neArrow',
+                  'rightArrow',
+                  'overlappingSquares'
+                ];
+                if (symbolCheckboxes.indexOf(details.name) !== -1) {
                   symbolCheckboxes.forEach(function (symbol) {
                     var _a;
                     if (symbol !== details.name) {
                       dialogApi.setData((_a = {}, _a[symbol] = false, _a));
                     }
                   });
+                  if (details.name !== 'noSymbol') {
+                    dialogApi.setData({ noSymbol: false });
+                  }
                 }
                 if (details.name === 'customSvgSymbol') {
                   dialogApi.setData({ customSvgSymbol: details.value });
-                } else if (details.name.startsWith('srText')) {
+                  if (details.value) {
+                    dialogApi.setData({ noSymbol: false });
+                  }
+                }
+                if (details.name.startsWith('srText')) {
                   var srTextCheckboxes = [
                     'srTextNone',
                     'srTextNewTab',
@@ -323,6 +330,12 @@
     };
     function Plugin () {
       tinymce.PluginManager.add('a11y-links', setup);
+      tinymce.init({
+        selector: 'textarea.tinymce',
+        plugins: 'a11y-links',
+        toolbar: 'a11y-links',
+        content_style: 'tox-editor-container {background-color: red; }'
+      });
     }
 
     Plugin();
