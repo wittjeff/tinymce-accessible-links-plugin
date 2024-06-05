@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TinyMCE Accessible Links Plugin Test</title>
+    <script src="https://cdn.tiny.cloud/1/obdwhiqr9nq558xl85q85dzbkavyy6d0oyqabadnqa8t4og4/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+</head>
+<body>
+    <h1>TinyMCE Accessible Links Plugin Test</h1>
+    <textarea id="myOneEditor" class="tinymce">
+        <p>Lobortis potenti urna leo gravida porttitor curae proin placerat tempus consequat lorem, sem dictumst imperdiet mattis velit congue maximus lectus egestas per orci, posuere dis semper varius ante senectus quisque pretium vivamus fringilla.</p>
+    </textarea>
+
+  <script>
+    tinymce.init({
+      selector: 'textarea#myOneEditor',
+      plugins: '',
+      external_plugins: {
+          'a11y-links': 'https://wittjeff.github.io/tinymce-accessible-links-plugin/a11y-links.min.js'
+      },
+      toolbar: 'a11y-links language',
+      content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+      content_langs: [
+        { title: 'English', code: 'en' },
+        { title: 'Spanish', code: 'es' },
+        { title: 'French', code: 'fr' },
+        { title: 'German', code: 'de' },
+      ]
+    });
+
+  </script>
+</body>
+</html>
