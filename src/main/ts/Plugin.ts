@@ -4,7 +4,7 @@ declare const tinymce: TinyMCE;
 
 const setup = (editor: Editor, url: string): void => {
 
-  editor.ui.registry.addIcon('custom-links-icon', '<img src="/icons/arrow.svg " style="height: 25px; width: 25px;"/>');
+  editor.ui.registry.addIcon('custom-links-icon', '<img src="/icons/box-with-ne-arrow.svg " style="height: 25px; width: 25px;"/>');
   editor.ui.registry.addButton('a11y-links', {
     icon: 'custom-links-icon',
     tooltip: 'Accessible Links',
