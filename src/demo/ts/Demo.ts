@@ -8,6 +8,6 @@ Plugin();
 
 tinymce.init({
   selector: 'textarea.tinymce',
-  plugins: 'code a11y-links',
+  plugins: 'a11y-links',
   toolbar: 'a11y-links'
 });
